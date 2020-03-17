@@ -1,0 +1,83 @@
+#include <cs50.h>
+#include <stdio.h>
+#include <math.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+
+int main(int argc, string argv[]) //main function that accepts command-line arguments
+{
+    bool checker1 = false; //initialization of variables
+    int number = 0;
+    if (argc == 2)
+    {
+        for (int i = 0; i < strlen(argv[1]); i++) //Loop over the string array to check if the command-line argument is valid
+        {
+            if (isdigit(argv[1][i]) && argv[1][0] != '0')
+            {
+                checker1 = true;
+            }
+            else
+            {
+                checker1 = false;
+                printf("Usage: ./caesar key\n");
+                return 1;
+            }
+        }
+        if (checker1 == true)
+        {
+            for (int i = 0; i < strlen(argv[1]); i++) //Loop for getting the key
+            {
+                if (isdigit(argv[1][i]) && argv[1][0] != '0')
+                {
+                    number = atoi(argv[1]);
+                }
+
+            }
+            string s = get_string("plaintext: "); //Getting the text from the user
+            printf("ciphertext: ");
+            for (int i = 0; i < strlen(s); i++) //Loop for checking if the characters are letters
+            {
+                if (isalpha(s[i]))
+                {
+                    if (isupper(s[i])) //Option for uppercase letters.
+                    {
+                        //printf("%i ", s[i]);
+                        int corrector = s[i] - 65;
+                        //printf("%i ", corrector);
+                        int ajuste = (corrector + number) % 26; //Aquí está el problema
+                        //printf("%i", ajuste);
+                        char cipher = ajuste + 65;
+                        printf("%c", cipher);
+
+                    }
+                    else if (islower(s[i])) //Option for lowercase letters.
+                    {
+                        int corrector = s[i] - 97;
+                        int ajuste = (corrector + number) % 26;
+                        char cipher = ajuste + 97;
+                        printf("%c", cipher);
+                    }
+                }
+                else
+                {
+                    char cipher = s[i];
+                    printf("%c", cipher);
+                }
+            }
+            printf("\n");
+        }
+
+        else
+        {
+            printf("Usage: ./caesar key\n");
+            return 1;
+        }
+    }
+    if (argc != 2)
+    {
+        printf("Usage: ./caesar key\n");
+        return 1;
+    }
+}
